@@ -1,0 +1,114 @@
+<div>
+  <div style="margin-top: 16px; margin-left: 10px">
+    <button mat-raised-button routerLink="/shop">
+      <mat-icon style="font-size: 14px">undo</mat-icon>Shopping Cart
+    </button>
+  </div>
+  <mat-progress-bar
+    *ngIf="loading"
+    mode="indeterminate"
+    style="position: sticky"
+  ></mat-progress-bar>
+  <ng-container>
+    <div
+      class="w-full"
+      fxLayout.gt-sm="row"
+      fxLayout="column"
+      fxLayoutAlign="center space-around"
+    >
+      <div class="center" style="margin: 20px 30px">
+        <app-items-review
+          [orderItems]="order?.cart?.cartItems"
+          [totalPrice]="order?.totalPrice"
+        ></app-items-review>
+      </div>
+      <div class="form-container">
+        <mat-card>
+          <form [formGroup]="form" class="checkout-form">
+            <h4>Checkout Form:</h4>
+            <mat-divider></mat-divider>
+            <br />
+            <div class="address-container">
+              <mat-form-field appearance="outline">
+                <mat-label>Street</mat-label>
+                <input
+                  matInput
+                  formControlName="street"
+                  placeholder="Ex. 1 Main St"
+                  required
+                />
+                <mat-error *ngIf="this.fc.street.invalid">
+                  Please enter your street.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>city</mat-label>
+                <mat-select formControlName="city" required>
+                  <mat-option
+                    *ngFor="let city of topCities"
+                    [value]="city.value"
+                  >
+                    {{ city.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="this.fc.city.invalid">
+                  Please select your city.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="date-selection-container">
+              <button mat-flat-button color="accent" (click)="picker.open()">
+                Select Delivery Date
+              </button>
+              <mat-form-field appearance="outline">
+                <mat-label> Selected Date</mat-label>
+                <input
+                  matInput
+                  formControlName="timeOfArrival"
+                  required
+                  [min]="minDate"
+                  [max]="maxDate"
+                  [matDatepicker]="picker"
+                  [matDatepickerFilter]="availableDatesFilter"
+                  [disabled]="true"
+                />
+                <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                <mat-datepicker disabled="false" #picker></mat-datepicker>
+                <mat-error *ngIf="this.fc.timeOfArrival.invalid">
+                  <ng-container
+                    *ngIf="this.fc.timeOfArrival.hasError('isNotAvailable')"
+                  >
+                    Sorry! We seem to be busy with other deliveries this date,
+                    please choose another.
+                  </ng-container>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <br />
+            <br />
+            <mat-divider></mat-divider>
+            <label for="card-element">Payment Details</label>
+
+            <br />
+
+            <div class="card-container" #cardElement id="card-element"></div>
+            <!-- Used to display form errors -->
+            <div #cardErrors id="card-errors" role="alert"></div>
+          </form>
+
+          <hr />
+          <div class="center w-full">
+            <button mat-raised-button color="primary" (click)="submitOrder()">
+              Buy
+            </button>
+            <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+          </div>
+          <pre *ngIf="confirmation">{{ confirmation | json }}</pre>
+        </mat-card>
+      </div>
+    </div>
+
+    <div [marginer]="40"></div>
+  </ng-container>
+</div>

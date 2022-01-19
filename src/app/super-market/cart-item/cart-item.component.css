@@ -1,0 +1,39 @@
+.item-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+button {
+  opacity: 0;
+  transition: opacity linear 300ms;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 50px;
+}
+
+.name {
+  flex: 1;
+}
+
+.amount-container {
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+}
+
+.price {
+}
+
+.amountBtn {
+  font-size: 18px;
+  opacity: 1;
+  transition: opacity linear 300ms;
+}
+
+.cancelBtn {
+  opacity: 1;
+  transition: opacity linear 300ms;
+}

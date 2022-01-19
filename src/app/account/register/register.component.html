@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="center">
+    <mat-stepper
+      [orientation]="(stepperOrientation | async)!"
+      [linear]="true"
+      #stepper
+    >
+      <mat-step [stepControl]="firstForm">
+        <form [formGroup]="firstForm" class="app-form">
+          <ng-template matStepLabel
+            >Create account username and password</ng-template
+          >
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              placeholder="johnsmith@gmail.com"
+              formControlName="email"
+            />
+            <button *ngIf="this.fc1.email.pending" mat-icon-button matSuffix>
+              <mat-spinner [diameter]="15"></mat-spinner>
+            </button>
+
+            <mat-error *ngIf="this.fc1.email.invalid">{{
+              getEmailError()
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              formControlName="password"
+              [type]="hide ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-error *ngIf="this.fc1.password.invalid">{{
+              getPasswordError()
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>Password Confirm</mat-label>
+            <input
+              matInput
+              formControlName="confirmedPassword"
+              [type]="hide ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-error *ngIf="this.fc1.confirmedPassword.invalid">{{
+              getConfirmedPasswordError()
+            }}</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step
+        [stepControl]="secondForm"
+        label="Personal info - Fill out your name & address"
+      >
+        <form [formGroup]="secondForm" class="app-form">
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>city</mat-label>
+            <mat-select formControlName="city" required>
+              <mat-option *ngFor="let city of topCities" [value]="city.value">
+                {{ city.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="this.fc2.city.invalid">
+              Please select your city.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>Street</mat-label>
+            <input
+              matInput
+              formControlName="street"
+              placeholder="Ex. 1 Main St"
+              required
+            />
+            <mat-error *ngIf="this.fc2.street.invalid">
+              Please enter your street.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              formControlName="firstName"
+              placeholder="Ex. John"
+              required
+            />
+            <mat-error *ngIf="this.fc2.firstName.invalid">
+              Please enter your firstName.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="legacy" class="w-full">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              formControlName="lastName"
+              placeholder="Ex. Smith"
+              required
+            />
+            <mat-error *ngIf="this.fc2.lastName.invalid">
+              Please enter your lastName.
+            </mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="errorResponse">{{
+            errorResponse | json
+          }}</mat-error>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="register()">Create</button>
+          </div>
+          <mat-progress-bar
+            *ngIf="$loading | async"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </form>
+      </mat-step>
+      <!-- <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious (click)="register()">Start Shopping!</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step> -->
+    </mat-stepper>
+  </div>
+</div>

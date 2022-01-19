@@ -1,0 +1,56 @@
+<mat-grid-list
+  [cols]="6"
+  rowHeight="75"
+  (mouseenter)="toggleButtons()"
+  (mouseleave)="toggleButtons()"
+>
+  <mat-grid-tile>
+    <div class="amount-container">
+      <button
+        mat-icon-button
+        style="font-size: 16px; border-bottom: 1px solid rgba(0, 0, 0, 0.281)"
+        [class.amountBtn]="isHovered"
+        color="accent"
+        (click)="addOne()"
+      >
+        +
+      </button>
+      <span class="center">
+        &#215;
+        {{ cartItem.amount }}
+      </span>
+      <button
+        mat-icon-button
+        style="font-size: 18px; border-top: 1px solid rgba(0, 0, 0, 0.281)"
+        color="accent"
+        [class.amountBtn]="isHovered"
+        (click)="removeOne()"
+      >
+        -
+      </button>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <img [src]="cartItem.productRef.url" style="width: 40px" />
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    {{ cartItem.productRef.name }}
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <span class="center">
+      {{
+        cartItem.productRef.price * cartItem.amount | currency: "ILS":"symbol"
+      }}
+    </span>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <span>
+      <button mat-icon-button [class.cancelBtn]="isHovered" (click)="remove()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </span>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-divider></mat-divider>

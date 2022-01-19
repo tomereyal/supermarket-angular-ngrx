@@ -1,0 +1,50 @@
+<div *ngIf="cart; else loading">
+  <div class="center-col" style="height: 200px; padding: 10px">
+    <div>
+      <div class="list" style="padding: 10px">
+        <p *ngIf="$customer | async as user">Welcome {{ user.firstName }}</p>
+
+        <p *ngIf="isCartEmpty === false">
+          You have an open cart from {{ cart.createdAt | date: "fullDate" }}
+        </p>
+
+        <p *ngIf="$previousOrderDate | async as prevOrderDate">
+          Your last purchase was from {{ prevOrderDate | date: "fullDate" }}
+        </p>
+      </div>
+    </div>
+
+    <div [marginer]="10"></div>
+    <div>
+      <button
+        *ngIf="isCartEmpty === true"
+        mat-raised-button
+        (click)="shopWithCurrentCart()"
+      >
+        Start Shopping
+      </button>
+      <div
+        *ngIf="isCartEmpty === false"
+        fxLayout.lt-sm="column"
+        fxLayoutAlign="center center"
+        class="button-container"
+      >
+        <button mat-raised-button (click)="deleteOldCreateNewCart()">
+          Get empty cart
+        </button>
+        <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+        <button mat-raised-button (click)="shopWithCurrentCart()">
+          Continue with previous cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="center-col" style="padding: 15px">
+    <h3>Retrieving Cart Info...</h3>
+    <div [marginer]="5"></div>
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

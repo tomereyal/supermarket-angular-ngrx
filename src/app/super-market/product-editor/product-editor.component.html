@@ -1,0 +1,95 @@
+<div>
+  <div class="form-toolbar">
+    <button
+      style="z-index: 10"
+      *ngIf="isEditingForm === true"
+      mat-raised-button
+      color="basic"
+      (click)="setEmptyProduct()"
+    >
+      <mat-icon>add_circle_outline</mat-icon>
+      create new
+    </button>
+  </div>
+  <div class="center form-title">
+    {{ isEditingForm ? "Edit Product" : "Insert New Product" }}
+  </div>
+  <form [formGroup]="form" class="form">
+    <div class="center">
+      <div class="center avatar">
+        <img
+          width="70px"
+          [src]="this.fc.url?.value ? this.fc.url?.value : defaultProductImage"
+          (error)="handleUrlError($event)"
+        />
+      </div>
+    </div>
+    <div class="image-file-uploader-container">
+      <button (click)="pasteClipboardText($event)" mat-stroked-button>
+        <mat-icon>content_paste</mat-icon>Paste Url
+      </button>
+      <!-- <button
+        *ngIf="this.fc.url?.value"
+        (click)="eraseCurrentUrl($event)"
+        mat-icon-button
+      >
+        <mat-icon>cancel</mat-icon>
+      </button> -->
+      <button mat-stroked-button (click)="fileInput.click()">
+        <mat-icon>upload_file</mat-icon> Upload Image
+      </button>
+      <input
+        #fileInput
+        style="hidden"
+        type="file"
+        (change)="convertFileToBase64EncodedFile($event)"
+        name="image"
+      />
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" type="text" matInput />
+      <mat-error *ngIf="this.fc.name.hasError('required')">
+        Please provide this product a name.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+
+      <input formControlName="price" type="number" min="0" matInput />
+      <mat-error *ngIf="this.fc.price.hasError('required')">
+        Please provide this product a price.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryRef">
+        <mat-option
+          *ngFor="let category of $categories | async"
+          [value]="category._id"
+        >
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="this.fc.categoryRef.hasError('required')">
+        Please provide this product a category.
+      </mat-error>
+    </mat-form-field>
+    <div class="center">
+      <button
+        *ngIf="loading === false"
+        [disabled]="this.form.invalid"
+        mat-raised-button
+        color="accent"
+        (click)="onSubmit()"
+      >
+        {{ isEditingForm ? "Save Changes" : "Create" }}
+      </button>
+      <mat-icon *ngIf="loading === true">
+        <mat-spinner [diameter]="24"></mat-spinner>
+      </mat-icon>
+    </div>
+  </form>
+</div>

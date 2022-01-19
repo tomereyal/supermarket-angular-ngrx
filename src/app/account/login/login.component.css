@@ -1,0 +1,26 @@
+.container {
+  height: 86vh;
+}
+
+.login-width {
+  max-width: 400px;
+}
+
+.info-container {
+  min-height: 300px;
+}
+
+.border-divider {
+  border-right: 2px solid rgba(0, 0, 0, 0.13);
+}
+.info-text {
+  padding: 13px;
+  word-wrap: break-word;
+}
+
+@media only screen and (max-width: 960px) {
+  .border-divider {
+    border-right: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.13);
+  }
+}

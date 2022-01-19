@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Add To Cart <mat-icon>add_shopping_cart</mat-icon></h1>
+<div mat-dialog-content>
+  <div class="center">
+    <h4>{{ product.name }}</h4>
+    <img
+      [src]="product.url ? product.url : defaultImage"
+      style="width: 90px"
+      alt="product image"
+    />
+  </div>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-grid-list [cols]="3" [rowHeight]="40">
+        <mat-grid-tile>
+          <button
+            (click)="decrement()"
+            mat-icon-button
+            style="font-size: larger"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <input
+            type="number"
+            formControlName="amount"
+            matInput
+            [min]="0"
+            [max]="50"
+            style="padding-left: 48%; font-size: larger"
+          />
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button
+            (click)="increment()"
+            mat-icon-button
+            style="font-size: larger"
+          >
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-error
+        *ngIf="
+          this.form.controls.amount.invalid &&
+          this.form.controls.amount.hasError('min')
+        "
+        >Minimum amount is 0</mat-error
+      >
+      <mat-error
+        *ngIf="
+          this.form.controls.amount.invalid &&
+          this.form.controls.amount.hasError('max')
+        "
+        >Maximum amount is 50</mat-error
+      >
+    </mat-form-field>
+    <p class="center">
+      <button *ngIf="!cartItemId" (click)="addCartItem()" mat-raised-button>
+        Add <mat-icon>check</mat-icon>
+      </button>
+      <button *ngIf="cartItemId" (click)="updateCartItem()" mat-raised-button>
+        Update <mat-icon>check</mat-icon>
+      </button>
+    </p>
+  </form>
+</div>

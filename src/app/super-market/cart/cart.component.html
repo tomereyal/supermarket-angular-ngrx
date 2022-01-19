@@ -1,0 +1,37 @@
+<div class="cart-container">
+  <ng-container *ngIf="$cartItems | async as cartItems">
+    <div *ngIf="(cartItems | keyvalue)?.length === 0" style="padding: 15px">
+      <h3 class="center">
+        <mat-icon>shopping_cart</mat-icon>
+
+        Your cart is empty.
+      </h3>
+      <h4 style="color: rgb(61, 56, 56)">
+        Click on the cart icon below the product to add items to your cart.
+      </h4>
+    </div>
+
+    <mat-nav-list class="item-list-container">
+      <app-cart-item
+        *ngFor="let cartItem of cartItems | keyvalue"
+        [cartItem]="cartItem.value"
+        >{{ cartItem | json }}</app-cart-item
+      >
+    </mat-nav-list>
+    <mat-toolbar class="order-toolbar" color="primary">
+      <button style="font-size: 8px" (click)="emptyCart()" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+      <div>
+        <span>Total:</span>
+
+        &#8362;
+        {{ getTotalPrice(cartItems) }}
+      </div>
+      <span style="font-size: 14px">Order</span>
+      <button mat-mini-fab color="primary" (click)="getOrder()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </mat-toolbar>
+  </ng-container>
+</div>

@@ -1,0 +1,36 @@
+<div class="card-container">
+  <div class="center" style="height: 30%">
+    <img
+      mat-card-image
+      [src]="product.url ? product.url : defaultImage"
+      style="width: 50px; height: auto"
+    />
+  </div>
+  <div class="card-title" style="height: 10%; font-weight: 500">
+    {{ product.name }}
+  </div>
+  <div style="height: 10%; color: rgb(49, 47, 47)">
+    {{ product.price | currency: "ILS":"symbol" }}
+  </div>
+  <button
+    style="z-index: 10"
+    mat-icon-button
+    color="primary"
+    (click)="openDialog()"
+    *ngIf="isAdmin === false"
+    [matBadge]="currentAmount"
+    [matBadgeHidden]="currentAmount <= 0"
+    matBadgePosition="below after"
+    matBadgeSize="small"
+  >
+    <mat-icon>add_shopping_cart</mat-icon>
+  </button>
+  <button
+    *ngIf="isAdmin === true"
+    style="z-index: 10"
+    mat-icon-button
+    (click)="setCurrentProduct()"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+</div>

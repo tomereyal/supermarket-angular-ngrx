@@ -1,0 +1,48 @@
+/* .cartAndFormContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+} */
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+}
+.address-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  justify-content: space-around;
+}
+.address-container .mat-form-field {
+  width: 120px;
+}
+
+.date-selection-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-between;
+}
+.date-selection-container .mat-form-field {
+  width: 120px;
+}
+
+.form-title {
+}
+
+.checkout-form {
+  max-width: 400px;
+  padding: 12px 6px;
+}
+
+.card-container {
+  padding: 10px 2px;
+}
+

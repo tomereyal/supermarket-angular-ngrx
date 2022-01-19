@@ -1,0 +1,12 @@
+<div class="center">
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search All Products"
+    #input
+    (keyup)="search(input.value)"
+  />
+  <button mat-icon-button color="primary">
+    <mat-icon>search</mat-icon>
+  </button>
+</div>

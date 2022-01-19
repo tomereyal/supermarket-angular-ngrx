@@ -1,0 +1,99 @@
+<!-- <mat-grid-list [responsiveCols]="{ xs: 1, sm: 3, md: 3, lg: 3, xl: 3 }"></mat-grid-list><div></div> -->
+<div class="container">
+  <div
+    fxLayout="column"
+    fxLayout.gt-sm="row"
+    class="py-3"
+    fxLayoutAlign="space-around center"
+  >
+    <div class="center">
+      <form [formGroup]="form">
+        <mat-card class="login-width">
+          <mat-card-subtitle>welcome</mat-card-subtitle>
+          <mat-card-title>Login</mat-card-title>
+          <mat-card-content>
+            <p>
+              <mat-form-field appearance="legacy">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  placeholder="johnsmith@gmail.com"
+                  formControlName="email"
+                />
+                <mat-error *ngIf="this.control.email.invalid">{{
+                  getEmailErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+            </p>
+            <p>
+              <mat-form-field appearance="legacy">
+                <mat-label>Password</mat-label>
+
+                <input
+                  matInput
+                  formControlName="password"
+                  [type]="hide ? 'password' : 'text'"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                >
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
+                </button>
+                <mat-error *ngIf="this.control.password.invalid">{{
+                  getPasswordErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+            </p>
+          </mat-card-content>
+          <!-- <mat-divider inset></mat-divider> -->
+          <mat-card-actions>
+            <mat-error *ngIf="errorResponse">{{ errorResponse }}</mat-error>
+            <button mat-raised-button color="primary" (click)="onSubmit()">
+              Submit
+            </button>
+            <button routerLink="../register" mat-button>Register</button>
+          </mat-card-actions>
+          <mat-progress-bar
+            *ngIf="this.loading"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </mat-card>
+      </form>
+    </div>
+    <div>
+      <div
+        class="center-col info-container border-divider "
+        
+
+      >
+        <div class="info-text">
+          This supermarket is the quickest way to get your groceries.
+        </div>
+        <img
+          src="https://www.savethestudent.org/uploads/online-shopping-header-phone-bag-of-groceries.jpg"
+          height="100"
+          alt="pic of supermarket"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="center-col info-container">
+        <img
+          src="https://www.supermarketnews.com/sites/supermarketnews.com/files/styles/article_featured_retina/public/Online%20grocery%20webinar-GettyImages-1165215193.jpg?itok=3evlZYk8  "
+          height="100"
+          alt="pic of supermarket"
+        />
+        <div class="center-col info-text">
+          <div>Total Available Products Stat: {{ $productCount | async }}</div>
+          <div>Total Orders Stat: {{ $orderCount | async }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

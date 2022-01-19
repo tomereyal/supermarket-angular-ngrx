@@ -1,0 +1,74 @@
+.navbar-container {
+  box-shadow: 0px 0px 0px 10px rgba(255, 253, 253, 0.897);
+  height: 13vh;
+  padding: 2px 20px;
+
+  background-color: #e5e5f7;
+  background-color: #ffffff;
+  opacity: 1;
+  background-image: linear-gradient(
+    to right,
+    #ffc5d6,
+    #ffc5d6 20px,
+    #ffffff 20px,
+    #ffffff
+  );
+  background-size: 40px 100%;
+}
+.spacer {
+  margin-left: auto;
+}
+
+.welcome-box {
+  font-style: italic;
+  font-weight: 600;
+  font-size: 14px;
+  margin-left: 60px;
+  color: rgba(0, 0, 0, 0.473);
+}
+
+.contact-title {
+  line-height: 0;
+  z-index: 2;
+}
+
+.contact-title > span {
+  padding: 2px;
+  font-size: 10px;
+  color: #645c80;
+  font-weight: 500;
+  border: 1px solid #e5e5f7;
+}
+
+.contact-info {
+  margin: 0px 20px;
+  font-size: 10px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.76);
+  position: relative;
+}
+
+.contact-info > div {
+  padding: 6px 1px 2px 1px;
+  font-weight: 500;
+}
+
+.customIconSize {
+  font-size: 12px;
+  height: 12px;
+  width: 12px;
+  padding: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .contact-info {
+    display: none !important;
+  }
+  .contact-title {
+    display: none !important;
+  }
+  .welcome-box {
+    /* margin-left: 40px; */
+  }
+}

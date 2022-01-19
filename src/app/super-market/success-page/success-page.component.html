@@ -1,0 +1,92 @@
+<div [marginer]="10"></div>
+<div *ngIf="state$ | async as state; else loading">
+  <div class="center-col">
+    <mat-card>
+      <div class="center-col" style="padding: 10px">
+        <h2 class="center" style="text-align: center">
+          Order Success
+          <mat-icon style="color: rgb(29, 192, 37); margin-left: 5px"
+            >check
+          </mat-icon>
+        </h2>
+        <h4>Order Id : {{ state?.confirmedOrderId }}</h4>
+      </div>
+    </mat-card>
+    <div class="center-col" style="margin-top: 15px">
+      <button mat-flat-button color="primary" routerLink="/shop">
+        <mat-icon>undo</mat-icon>Back To Store
+      </button>
+      <div style="font-style: italic">or</div>
+      <p style="margin: 0px 5px; color: rgb(49, 49, 219)" class="center">
+        download digital receipt below
+        <mat-icon>arrow_downward</mat-icon>
+      </p>
+    </div>
+  </div>
+  <div [marginer]="3"></div>
+  <mat-divider></mat-divider>
+  <div class="center-col w-full" style="padding: 10px">
+    Online Receipt:
+    <div #pdfTable class="receipt-container">
+      <div *ngIf="$recentOrder | async as order">
+        <div class="center-col">
+          <h3>Supermarket Online</h3>
+          <h4>{{ order.createdAt | date: "medium" }}</h4>
+          <h5>Contact Us:</h5>
+          <p>Phone Number: 09-348-344</p>
+          <p>Email: Supermarket@supermarket.com</p>
+        </div>
+
+        <div [marginer]="10"></div>
+        <table>
+          <thead>
+            <span style="text-decoration: underline">Order Details</span>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 100px">Expected Arrival:</td>
+              <td>{{ order.timeOfArrival | date: "medium" }}</td>
+            </tr>
+            <tr>
+              <td style="width: 100px">Shipping Address:</td>
+              <td>
+                {{ order.destination.street }}, {{ order.destination.city }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div [marginer]="10"></div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Amount</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.cart.cartItems">
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.amount }}</td>
+              <td>{{ item.product.price * item.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div [marginer]="5"></div>
+        <div>
+          <h2>Thank you for shopping with us!</h2>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 10px">
+      <button mat-stroked-button color="accent" (click)="generatePdf()">
+        <mat-icon>download</mat-icon> Download Receipt
+      </button>
+    </p>
+  </div>
+  <div [marginer]="10"></div>
+</div>
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

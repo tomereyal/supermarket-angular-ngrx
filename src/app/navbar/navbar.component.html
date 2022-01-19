@@ -1,0 +1,46 @@
+<div class="navbar-container center">
+  <div class="center" style="font-size: 16px">
+    <button mat-mini-fab color="none" routerLink="/shop">
+      <!-- <mat-icon>home</mat-icon> -->
+      <img src="/assets/supermarket.svg" width="100px" />
+    </button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="center welcome-box">
+    Welcome {{ ($user | async)?.firstName }}
+
+    <button *ngIf="($user | async)?.firstName" mat-button></button>
+  </div>
+  <div class="center-col">
+    <div class="contact-title"><span>contact us</span></div>
+
+    <div
+      class="contact-info"
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="center center"
+    >
+      <div>
+        <mat-icon class="customIconSize">phone</mat-icon>
+        09-7960021
+      </div>
+      <div>
+        <mat-icon class="customIconSize">email</mat-icon> superM@gmail.com
+      </div>
+    </div>
+  </div>
+
+  <button
+    *ngIf="($user | async)?._id"
+    mat-flat-button
+    aria-label="logout button"
+    (click)="logout()"
+    color="accent"
+    class="logout-button"
+  >
+    logout
+  </button>
+  <!-- </div> -->
+</div>

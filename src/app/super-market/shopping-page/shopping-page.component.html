@@ -1,0 +1,33 @@
+<div class="shop-container" [class.mobile-layout]="mobileQuery.matches">
+  <mat-toolbar class="toolbar-container" style="height: 50px">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <app-search-bar></app-search-bar>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 50 : 0"
+  >
+    <mat-sidenav
+      #snav
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [opened]="true"
+      [fixedInViewport]="mobileQuery.matches"
+      [fixedTopGap]="200"
+      class="sidenav"
+    >
+      <div *ngIf="$isAdmin | async as isAdmin; else cart">
+        <app-product-editor></app-product-editor>
+      </div>
+      <ng-template #cart>
+        <app-cart></app-cart>
+      </ng-template>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <app-product-list></app-product-list>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

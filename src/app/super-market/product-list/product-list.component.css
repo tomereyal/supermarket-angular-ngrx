@@ -1,0 +1,46 @@
+::ng-deep .mat-tab-labels > .mat-tab-label:first-child {
+  display: none;
+}
+.container {
+  position: relative;
+  height: 100%;
+}
+.products-container {
+  padding: 14px;
+}
+
+.loader-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  opacity: 1;
+  transition: opacity linear 200ms;
+}
+
+.opacity-1 {
+  opacity: 1;
+}
+.opacity-0 {
+  opacity: 0;
+}
+
+app-product {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.action-blocker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.034);
+}
