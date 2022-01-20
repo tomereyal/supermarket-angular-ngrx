@@ -1,16 +1,18 @@
 <div class="container">
-  <mat-tab-group
-    (selectedTabChange)="getProducts($event)"
-    [(selectedIndex)]="currentTabIndex"
-  >
-    <mat-tab></mat-tab>
-    <mat-tab
-      *ngFor="let category of $categories | async; let i = index"
-      [label]="category.name"
-      [aria-label]="category._id"
+  <div class="category-container">
+    <mat-tab-group
+      (selectedTabChange)="getProducts($event)"
+      [(selectedIndex)]="currentTabIndex"
     >
-    </mat-tab>
-  </mat-tab-group>
+      <mat-tab></mat-tab>
+      <mat-tab
+        *ngFor="let category of $categories | async; let i = index"
+        [label]="category.name"
+        [aria-label]="category._id"
+      >
+      </mat-tab>
+    </mat-tab-group>
+  </div>
   <div class="products-container">
     <mat-grid-list
       *ngIf="!($loadingProducts | async)"
@@ -44,7 +46,11 @@
   </div>
   <div
     class="action-blocker center"
-    *ngIf="($loadingProducts | async) || ($loadingCurrentProduct | async)"
+    *ngIf="
+      ($loadingProducts | async) ||
+      ($loadingCurrentProduct | async) ||
+      initialLoading === true
+    "
   >
     <mat-spinner [strokeWidth]="5" [diameter]="50" color="accent">
     </mat-spinner>

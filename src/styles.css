@@ -21,6 +21,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+.center-space {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .center-col {
   display: flex;
   flex-direction: column;

@@ -9,8 +9,11 @@
     <div class="center">
       <form [formGroup]="form">
         <mat-card class="login-width">
-          <mat-card-subtitle>welcome</mat-card-subtitle>
-          <mat-card-title>Login</mat-card-title>
+          <!-- <mat-card-subtitle>welcome</mat-card-subtitle> -->
+          <mat-card-title>
+            <div class="center" style="letter-spacing: 1px">Login</div>
+          </mat-card-title>
+
           <mat-card-content>
             <p>
               <mat-form-field appearance="legacy">
@@ -54,10 +57,26 @@
           <!-- <mat-divider inset></mat-divider> -->
           <mat-card-actions>
             <mat-error *ngIf="errorResponse">{{ errorResponse }}</mat-error>
-            <button mat-raised-button color="primary" (click)="onSubmit()">
-              Submit
-            </button>
-            <button routerLink="../register" mat-button>Register</button>
+            <div class="center-col w-full">
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="onSubmit()"
+                style="width: 100%"
+              >
+                Enter
+              </button>
+              <button routerLink="../register" mat-button>
+                <span class="center-col">
+                  <span style="font-size: 10px; color: rgb(54, 54, 59)"
+                    >Don't have an account yet?
+                  </span>
+                  <button mat-stroked-button color="accent">
+                    Create Account
+                  </button>
+                </span>
+              </button>
+            </div>
           </mat-card-actions>
           <mat-progress-bar
             *ngIf="this.loading"
@@ -67,11 +86,7 @@
       </form>
     </div>
     <div>
-      <div
-        class="center-col info-container border-divider "
-        
-
-      >
+      <div class="center-col info-container border-divider">
         <div class="info-text">
           This supermarket is the quickest way to get your groceries.
         </div>

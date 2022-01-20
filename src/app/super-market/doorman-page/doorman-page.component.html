@@ -2,7 +2,7 @@
   <div class="center-col" style="height: 200px; padding: 10px">
     <div>
       <div class="list" style="padding: 10px">
-        <p *ngIf="$customer | async as user">Welcome {{ user.firstName }}</p>
+        <h3 *ngIf="$customer | async as user">Hi there {{ user.firstName }}</h3>
 
         <p *ngIf="isCartEmpty === false">
           You have an open cart from {{ cart.createdAt | date: "fullDate" }}
@@ -30,11 +30,13 @@
         class="button-container"
       >
         <button mat-raised-button (click)="deleteOldCreateNewCart()">
+          <mat-icon>arrow_left</mat-icon>
           Get empty cart
         </button>
         <mat-divider [vertical]="true" [inset]="true"></mat-divider>
         <button mat-raised-button (click)="shopWithCurrentCart()">
           Continue with previous cart
+          <mat-icon>arrow_right</mat-icon>
         </button>
       </div>
     </div>

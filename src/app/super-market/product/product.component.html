@@ -1,4 +1,10 @@
-<div class="card-container">
+<div
+  class="card-container"
+  (click)="openDialog()"
+  matRipple
+  [matRippleCentered]="true"
+  matRippleColor=" rgba(0, 0, 0, 0.137)"
+>
   <div class="center" style="height: 30%">
     <img
       mat-card-image
@@ -25,12 +31,7 @@
   >
     <mat-icon>add_shopping_cart</mat-icon>
   </button>
-  <button
-    *ngIf="isAdmin === true"
-    style="z-index: 10"
-    mat-icon-button
-    (click)="setCurrentProduct()"
-  >
+  <button *ngIf="isAdmin === true" style="z-index: 10" mat-icon-button>
     <mat-icon>edit</mat-icon>
   </button>
 </div>

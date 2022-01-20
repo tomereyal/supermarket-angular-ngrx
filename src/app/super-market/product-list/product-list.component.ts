@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import IProduct from '@app/interfaces/product.interface';
 import ICategory from '@app/interfaces/category.interface';
 import { Observable, of } from 'rxjs';
@@ -13,14 +13,16 @@ import { IHashedProducts } from '../state&service/product.reducer';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, AfterViewInit {
   $products: Observable<IHashedProducts>;
-  $isAdmin:Observable<boolean>;
+  $isAdmin: Observable<boolean>;
   $loadingProducts: Observable<boolean> = of(false);
   $loadingCurrentProduct: Observable<boolean> = of(false);
   $categories: Observable<ICategory[]>;
   currentTabIndex: number = -1;
   previousTabIndex: number = 1;
+  initialLoading = true;
+
   constructor(
     private store: Store<StateWithSm>,
     private productService: ProductService
@@ -36,7 +38,7 @@ export class ProductListComponent implements OnInit {
       (state) => state.sm.loadingCurrentProduct
     );
 
-//Need to unsubscribe on ngDestroy...
+    //Need to unsubscribe on ngDestroy...
     this.store
       .select((state) => state.sm.filteringProducts)
       .subscribe((filtering) => {
@@ -46,12 +48,17 @@ export class ProductListComponent implements OnInit {
         } else this.currentTabIndex = this.previousTabIndex;
       });
 
-     this.$isAdmin= this.store.select(state=>state.account.user.isAdmin)
+    this.$isAdmin = this.store.select((state) => state.account.user.isAdmin);
+  }
 
+  ngAfterViewInit(): void {
     setTimeout(() => {
       console.log(`this.currentTabIndex`, this.currentTabIndex);
-      if (this.currentTabIndex === 1) this.currentTabIndex = 2;
-    }, 500);
+      if (this.currentTabIndex === 1) {
+        this.currentTabIndex = 2;
+        this.initialLoading = false;
+      }
+    }, 1500);
   }
 
   getProducts($event: MatTabChangeEvent) {

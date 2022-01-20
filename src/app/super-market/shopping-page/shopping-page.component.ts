@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { ProductService } from './../state&service/product.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
@@ -15,6 +15,7 @@ import { StateWithSm } from '../state&service/sm.reducer';
 export class ShoppingPageComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   $isAdmin: Observable<boolean>;
+  $cartItemLength: Observable<number>;
   private _mobileQueryListener: () => void;
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -34,5 +35,14 @@ export class ShoppingPageComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await this.cartService.getCart();
     this.$isAdmin = this.store.select((state) => state.account.user.isAdmin);
+    this.$cartItemLength = this.store
+      .select((state) => state.sm?.cart?.cartItems)
+      .pipe(
+        map((cartItemsObject) => {
+          const num = Object.keys(cartItemsObject).length;
+          if (!num || num === 0) return 0;
+          return num;
+        })
+      );
   }
 }

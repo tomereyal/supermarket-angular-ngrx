@@ -14,10 +14,10 @@
     <button *ngIf="($user | async)?.firstName" mat-button></button>
   </div>
   <div class="center-col">
-    <div class="contact-title"><span>contact us</span></div>
+    <div class="contact-title mat-elevation-z4"><span>contact us</span></div>
 
     <div
-      class="contact-info"
+      class="contact-info mat-elevation-z2"
       fxLayout="column"
       fxLayout.gt-sm="row"
       fxLayoutAlign="center center"
@@ -31,6 +31,43 @@
       </div>
     </div>
   </div>
+
+  <div class="popup-button">
+    <button
+      mat-mini-fab
+      color="accent"
+      (click)="isContactOpen = !isContactOpen"
+      cdkOverlayOrigin
+      #trigger="cdkOverlayOrigin"
+    >
+      <mat-icon
+        *ngIf="!isContactOpen"
+        style="font-size: 12px; height: 12px; width: 12px"
+        >phone</mat-icon
+      >
+      <mat-icon
+        *ngIf="isContactOpen"
+        style="font-size: 12px; height: 12px; width: 12px"
+        >close</mat-icon
+      >
+    </button>
+  </div>
+  <!-- This template displays the overlay content and is connected to the button -->
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="isContactOpen"
+  >
+    <ul class="contact-popup-container" (blur)="closeContactBox()">
+      <li>
+        <mat-icon class="customIconSize">phone</mat-icon>
+        09-7960021
+      </li>
+      <li>
+        <mat-icon class="customIconSize">email</mat-icon> superM@gmail.com
+      </li>
+    </ul>
+  </ng-template>
 
   <button
     *ngIf="($user | async)?._id"

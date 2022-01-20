@@ -16,8 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MarginerDirective } from '@app/marginer.directive';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ResponsiveColsDirective } from '@app/responsive-cols.directive';
-
+import { MatRippleModule } from '@angular/material/core';
+import {OverlayModule} from '@angular/cdk/overlay';
 @NgModule({
   declarations: [MarginerDirective],
   imports: [
@@ -37,6 +37,8 @@ import { ResponsiveColsDirective } from '@app/responsive-cols.directive';
     HttpClientModule,
     MatBadgeModule,
     FlexLayoutModule,
+    MatRippleModule,
+    OverlayModule,
   ],
   exports: [
     MatCardModule,
@@ -55,7 +57,8 @@ import { ResponsiveColsDirective } from '@app/responsive-cols.directive';
     MarginerDirective,
     MatBadgeModule,
     FlexLayoutModule,
-    
+    MatRippleModule,
+    OverlayModule,
   ],
 })
 export class SharedModule {}

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
   $user: Observable<IUser>;
+  isContactOpen = false;
   constructor(
     private store: Store<StateWithUser>,
     private accountService: AccountService
@@ -23,6 +24,9 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
-    
+  }
+
+  closeContactBox() {
+    this.isContactOpen = false;
   }
 }

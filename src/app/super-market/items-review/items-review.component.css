@@ -1,7 +1,7 @@
 .table-container {
   max-height: 400px;
   overflow: auto;
-  min-width: 400px;
+  min-width: 300px;
 }
 
 table {

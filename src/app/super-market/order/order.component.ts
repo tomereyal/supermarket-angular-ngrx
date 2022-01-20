@@ -60,6 +60,8 @@ export class OrderComponent implements OnInit, AfterViewInit {
   stripe: Stripe | null;
   stripeElements: StripeElements | undefined;
   forbiddenDatesHashMap: any;
+  isCardValid = false;
+  submitErrors: string;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -78,14 +80,7 @@ export class OrderComponent implements OnInit, AfterViewInit {
     this.form = this.fb.group({
       city: ['', Validators.required],
       street: ['', Validators.required],
-      timeOfArrival: [
-        '',
-        {
-          validators: [Validators.required],
-          asyncValidators: [this.availableDateValidator()],
-          updateOn: 'blur',
-        },
-      ],
+      timeOfArrival: ['', Validators.required],
     });
     /*ERASE THE LINES BELOW LATER, ONLY FOR QUICK TESTING */
     await this.cartService.getCart();
@@ -148,10 +143,7 @@ export class OrderComponent implements OnInit, AfterViewInit {
       hidePostalCode: true,
     });
     // Add an instance of the card Element into the `card-element` <div>.
-    //@ts-ignore
 
-    console.log(`this.stripeElements`, this.stripeElements);
-    console.log(`this.cardElement`, this.cardElement);
     //@ts-ignore
     card?.mount(this.cardElement.nativeElement);
     //@ts-ignore
@@ -160,6 +152,9 @@ export class OrderComponent implements OnInit, AfterViewInit {
         this.cardErrors.nativeElement.textContent = event.error.message;
       } else {
         this.cardErrors.nativeElement.textContent = '';
+      }
+      if (event.complete) {
+        this.isCardValid = true;
       }
     });
   }
@@ -192,23 +187,9 @@ export class OrderComponent implements OnInit, AfterViewInit {
     return !(this.forbiddenDatesHashMap[date] === true);
   };
 
-  private availableDateValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.orderService.isDateAvailable(control.value).pipe(
-        map(({ isDateAvailable }) =>
-          isDateAvailable ? null : { isNotAvailable: true }
-        ),
-        catchError(async (error) => {
-          this.store.dispatch(requestFailure({ error }));
-          return null;
-        })
-      );
-    };
-  }
-
   async submitOrder() {
     if (!this.form.valid) {
-      console.log(`Form is not valid`, this.form.value);
+      this.submitErrors = 'Form is not valid. Check Fields.';
       return;
     }
     this.loading = true;
@@ -244,7 +225,10 @@ export class OrderComponent implements OnInit, AfterViewInit {
           });
         }
       })
-      .catch()
+      .catch((error) => {
+        const msg = error.error?.message;
+        this.submitErrors = msg ? msg : error.message;
+      })
       .finally(() => {
         this.loading = false;
       });

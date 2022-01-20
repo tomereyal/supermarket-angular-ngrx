@@ -4,9 +4,22 @@
 .container {
   position: relative;
   height: 100%;
+  overflow-y: hidden;
+}
+.category-container {
+  height: 15%;
 }
 .products-container {
   padding: 14px;
+  /* overflow-y: scroll; */
+  overflow-y: scroll;
+  height: 85%;
+}
+.mat-grid-list {
+  margin-bottom: 100px;
+
+  /* overflow: scroll; */
+  z-index: 10;
 }
 
 .loader-container {

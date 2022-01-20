@@ -1,7 +1,15 @@
 <div class="shop-container" [class.mobile-layout]="mobileQuery.matches">
   <mat-toolbar class="toolbar-container" style="height: 50px">
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
+    <button
+      mat-icon-button
+      (click)="snav.toggle()"
+      [matBadge]="$cartItemLength | async"
+      [matBadgeHidden]="($cartItemLength | async) === 0"
+      style="margin-right: 40px"
+    >
+      <mat-icon *ngIf="snav.opened === false">arrow_right</mat-icon>
+      <mat-icon *ngIf="snav.opened === true">arrow_left</mat-icon>
+      <mat-icon>shopping_cart_outline</mat-icon>
     </button>
     <app-search-bar></app-search-bar>
   </mat-toolbar>

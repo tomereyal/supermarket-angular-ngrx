@@ -1,7 +1,9 @@
-<div>
+<div class="container">
   <div style="margin-top: 16px; margin-left: 10px">
     <button mat-raised-button routerLink="/shop">
-      <mat-icon style="font-size: 14px">undo</mat-icon>Shopping Cart
+      <mat-icon style="font-size: 14px">undo</mat-icon>
+      <mat-icon> storefront</mat-icon>
+      Edit Items
     </button>
   </div>
   <mat-progress-bar
@@ -16,7 +18,7 @@
       fxLayout="column"
       fxLayoutAlign="center space-around"
     >
-      <div class="center" style="margin: 20px 30px">
+      <div class="center" style="margin: 20px 30px; padding: 20px">
         <app-items-review
           [orderItems]="order?.cart?.cartItems"
           [totalPrice]="order?.totalPrice"
@@ -25,85 +27,135 @@
       <div class="form-container">
         <mat-card>
           <form [formGroup]="form" class="checkout-form">
-            <h4>Checkout Form:</h4>
+            <div class="center">
+              <h4 class="form-title">Fillout & Order:</h4>
+            </div>
             <mat-divider></mat-divider>
             <br />
-            <div class="address-container">
-              <mat-form-field appearance="outline">
-                <mat-label>Street</mat-label>
-                <input
-                  matInput
-                  formControlName="street"
-                  placeholder="Ex. 1 Main St"
-                  required
-                />
-                <mat-error *ngIf="this.fc.street.invalid">
-                  Please enter your street.
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>city</mat-label>
-                <mat-select formControlName="city" required>
-                  <mat-option
-                    *ngFor="let city of topCities"
-                    [value]="city.value"
-                  >
-                    {{ city.viewValue }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="this.fc.city.invalid">
-                  Please select your city.
-                </mat-error>
-              </mat-form-field>
+            <div class="center-col">
+              <h4 class="title">
+                <span>
+                  <span class="number-avatar"> 1 </span> Shipping Address
+                </span>
+                <span
+                  class="check-avatar"
+                  *ngIf="this.fc.street.valid && this.fc.city.valid"
+                >
+                  <mat-icon>check</mat-icon></span
+                >
+              </h4>
+              <div class="address-container">
+                <mat-form-field appearance="outline" color="accent">
+                  <mat-label>Street</mat-label>
+                  <input
+                    matInput
+                    formControlName="street"
+                    placeholder="Ex. 1 Main St"
+                    required
+                  />
+                  <mat-error *ngIf="this.fc.street.invalid">
+                    Please enter your street.
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>city</mat-label>
+                  <mat-select formControlName="city" required>
+                    <mat-option
+                      *ngFor="let city of topCities"
+                      [value]="city.value"
+                    >
+                      {{ city.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="this.fc.city.invalid">
+                    Please select your city.
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
-            <div class="date-selection-container">
-              <button mat-flat-button color="accent" (click)="picker.open()">
-                Select Delivery Date
+            <mat-divider></mat-divider>
+
+            <div class="date-selection-container center-col">
+              <h4 class="title">
+                <span
+                  ><span class="number-avatar">2</span> Select Delivery
+                  Date</span
+                >
+
+                <span class="check-avatar" *ngIf="this.fc.timeOfArrival.valid">
+                  <mat-icon>check</mat-icon></span
+                >
+              </h4>
+              <div class="center w-full">
+                <mat-form-field appearance="outline">
+                  <mat-label> Selected Date</mat-label>
+                  <input
+                    matInput
+                    formControlName="timeOfArrival"
+                    required
+                    [min]="minDate"
+                    [max]="maxDate"
+                    [matDatepicker]="picker"
+                    [matDatepickerFilter]="availableDatesFilter"
+                    (click)="picker.open()"
+                  />
+                  <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+                  <mat-datepicker disabled="false" #picker></mat-datepicker>
+                  <mat-error *ngIf="this.fc.timeOfArrival.invalid">
+                    <ng-container
+                      *ngIf="this.fc.timeOfArrival.hasError('required')"
+                    >
+                      Please choose a delivery date.
+                    </ng-container>
+                  </mat-error>
+                </mat-form-field>
+                <button mat-mini-fab style="margin-left: 12px">
+                  <mat-icon>calendar_month</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="payment-details center-col">
+              <h4 class="title">
+                <span>
+                  <span class="number-avatar">3</span>Fill Payment Details
+                </span>
+
+                <span class="check-avatar" *ngIf="isCardValid === true">
+                  <mat-icon>check</mat-icon></span
+                >
+              </h4>
+              <div class="card-holder">
+                <div
+                  class="card-container"
+                  #cardElement
+                  id="card-element"
+                ></div>
+              </div>
+              <!-- Used to display form errors -->
+              <mat-error>
+                <div #cardErrors id="card-errors" role="alert"></div
+              ></mat-error>
+            </div>
+
+            <div class="center-col w-full" style="margin-top: 14px">
+              <mat-error *ngIf="submitErrors">
+                {{ submitErrors }}
+              </mat-error>
+              <button
+                mat-raised-button
+                color="accent"
+                style="font-size: larger"
+                (click)="submitOrder()"
+              >
+                Purchase
               </button>
-              <mat-form-field appearance="outline">
-                <mat-label> Selected Date</mat-label>
-                <input
-                  matInput
-                  formControlName="timeOfArrival"
-                  required
-                  [min]="minDate"
-                  [max]="maxDate"
-                  [matDatepicker]="picker"
-                  [matDatepickerFilter]="availableDatesFilter"
-                  [disabled]="true"
-                />
-                <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
-                <mat-datepicker disabled="false" #picker></mat-datepicker>
-                <mat-error *ngIf="this.fc.timeOfArrival.invalid">
-                  <ng-container
-                    *ngIf="this.fc.timeOfArrival.hasError('isNotAvailable')"
-                  >
-                    Sorry! We seem to be busy with other deliveries this date,
-                    please choose another.
-                  </ng-container>
-                </mat-error>
-              </mat-form-field>
+              <mat-spinner [diameter]="50" *ngIf="loading"></mat-spinner>
             </div>
-
-            <br />
-            <br />
-            <mat-divider></mat-divider>
-            <label for="card-element">Payment Details</label>
-
-            <br />
-
-            <div class="card-container" #cardElement id="card-element"></div>
-            <!-- Used to display form errors -->
-            <div #cardErrors id="card-errors" role="alert"></div>
           </form>
 
-          <hr />
-          <div class="center w-full">
-            <button mat-raised-button color="primary" (click)="submitOrder()">
-              Buy
-            </button>
-            <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
-          </div>
           <pre *ngIf="confirmation">{{ confirmation | json }}</pre>
         </mat-card>
       </div>
